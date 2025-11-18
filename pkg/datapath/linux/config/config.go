@@ -235,6 +235,8 @@ func (h *HeaderfileWriter) WriteNodeConfig(w io.Writer, cfg *datapath.LocalNodeC
 
 	if option.Config.ServiceNoBackendResponse == option.ServiceNoBackendResponseReject {
 		cDefinesMap["SERVICE_NO_BACKEND_RESPONSE"] = "1"
+	} else if option.Config.ServiceNoBackendResponse == option.ServiceNoBackendResponseContinue {
+		cDefinesMap["SERVICE_NO_BACKEND_RESPONSE_CONTINUE"] = "1"
 	}
 
 	if option.Config.EnableL2Announcements {

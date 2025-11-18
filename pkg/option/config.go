@@ -457,6 +457,10 @@ const (
 	// without any backends
 	ServiceNoBackendResponseDrop = "drop"
 
+	// ServiceNoBackendResponseContinue is the name of the option to forward traffic
+	// for services with no backends to the local IP stack (i.e. continue).
+	ServiceNoBackendResponseContinue = "continue"
+
 	// PolicyDenyResponse is the name of the option to pick how to handle ipv4 egress traffic denied by policy
 	PolicyDenyResponse = "policy-deny-response"
 
@@ -2594,11 +2598,11 @@ func (c *DaemonConfig) Populate(logger *slog.Logger, vp *viper.Viper) {
 
 	c.ServiceNoBackendResponse = vp.GetString(ServiceNoBackendResponse)
 	switch c.ServiceNoBackendResponse {
-	case ServiceNoBackendResponseReject, ServiceNoBackendResponseDrop:
+	case ServiceNoBackendResponseReject, ServiceNoBackendResponseDrop, ServiceNoBackendResponseContinue:
 	case "":
 		c.ServiceNoBackendResponse = defaults.ServiceNoBackendResponse
 	default:
-		logging.Fatal(logger, "Invalid value for --%s: %s (must be 'reject' or 'drop')", ServiceNoBackendResponse, c.ServiceNoBackendResponse)
+		logging.Fatal(logger, "Invalid value for --%s: %s (must be 'reject', 'drop' or 'continue')", ServiceNoBackendResponse, c.ServiceNoBackendResponse)
 	}
 
 	c.populateLoadBalancerSettings(logger, vp)

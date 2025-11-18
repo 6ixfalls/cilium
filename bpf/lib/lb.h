@@ -2318,6 +2318,9 @@ drop_err:
 static __always_inline
 int handle_nonroutable_endpoints_v4(const struct lb4_service *svc)
 {
+#ifdef SERVICE_NO_BACKEND_RESPONSE_CONTINUE
+	return CTX_ACT_OK;
+#endif
 	/* Drop the packet when eTP/iTP is set to Local, allow otherwise. */
 	if ((lb4_svc_is_external(svc) && lb4_svc_is_etp_local(svc)) ||
 	    (!lb4_svc_is_external(svc) && lb4_svc_is_itp_local(svc)))
@@ -2330,6 +2333,9 @@ int handle_nonroutable_endpoints_v4(const struct lb4_service *svc)
 static __always_inline
 int handle_nonroutable_endpoints_v6(const struct lb6_service *svc)
 {
+#ifdef SERVICE_NO_BACKEND_RESPONSE_CONTINUE
+	return CTX_ACT_OK;
+#endif
 	/* Drop the packet when eTP/iTP is set to Local, allow otherwise. */
 	if ((lb6_svc_is_external(svc) && lb6_svc_is_etp_local(svc)) ||
 	    (!lb6_svc_is_external(svc) && lb6_svc_is_itp_local(svc)))
